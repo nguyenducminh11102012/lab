@@ -1,5 +1,4 @@
-
-name: TOOLBOXLAP
+name: TOOLBOX LAP
 
 on:
   workflow_dispatch:
@@ -24,12 +23,13 @@ jobs:
     - run: Set-ItemProperty -Path 'HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp' -name "UserAuthentication" -Value 1
     - run: Set-LocalUser -Name "runneradmin" -Password (ConvertTo-SecureString -AsPlainText "admin@123" -Force)
 
-    - name: www.toolboxlap.xyz
+    - name: Run Playit with secret key
       env:
         PLAYIT_AUTH_KEY: ${{ secrets.PL }} 
       run: |
         Start-Process -FilePath "$env:USERPROFILE\playit.exe" -ArgumentList "--secret $env:PLAYIT_AUTH_KEY" -NoNewWindow -Wait
         Start-Process -FilePath "$env:USERPROFILE\playit.exe" -NoNewWindow
+
     - name: Keep the GitHub Action Runner Alive
       run: |
           Start-Sleep -Seconds 21600  # Adjust the duration based on your needs
